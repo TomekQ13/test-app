@@ -1,0 +1,29 @@
+version: '3'
+services: 
+    postgres:
+        image: 'postgres:14.1'
+        restart: always
+        environment: 
+             - POSTGRES_RW_USER
+             - POSTGRES_RW_PASSWORD
+             - POSTGRES_PORT
+             - POSTGRES_DATABASE
+             - POSTGRES_HOST
+        volumes: 
+            - ./database:/var/lib/postgresql/data
+        ports:
+            - '5432:5432'
+    app:
+        build:
+            context: ./app/
+        ports:
+            - '3000:3000'
+        restart: always
+        depends_on: 
+            - 'postgres'
+        environment: 
+             - POSTGRES_RW_USER
+             - POSTGRES_RW_PASSWORD
+             - POSTGRES_PORT
+             - POSTGRES_DATABASE
+             - POSTGRES_HOST
