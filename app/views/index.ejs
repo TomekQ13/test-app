@@ -1,13 +1,58 @@
-<h1>HELLO WORLD</h1>
-<form action="/" method="POST">
-    <input type="text" id="value" name="value">
-    <button type="submit">Add</button>
-</form>
-<h2>Added values</h2>
-<ul>
-    <% for( let i = 0; i < values.length; i++ ) { %>
-        <li>
-            <%= values[i].test_col %> 
-        </li>
-    <% } %>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyApp</title>
+    <link rel="stylesheet" href="styles.css"></link>
+</head>
+<body>
+    <div class="card">
+        <div class="card__header">
+            <h1>To Do App</h1>
+        </div>
+        <div class="card__body">
+            <form action="/" method="POST">
+                <input type="text" id="value" name="value">
+                <button type="submit">Add</button>
+            </form>
+            <div class="card__body_cols">
+                <div class="card__body_cols_left">
+                    <h2>To do</h2>
+                    <ol class="card__body_to_do_list">
+                        <li>
+                            To do 1
+                            <form>
+                                <button type="submit">&times;</button>
+                            </form>
+                            <form>
+                                <button type="submit">&#10003;</button>
+                            </form>
+                        </li>
+                        <li>To do 2</li>
+                        <li>To do 3</li>
+                        <li>To do 4</li>
+                    </ol>
+                </div>
+                <div class="card__body_cols_right">
+                    <h2>Done</h2>
+                    <ol class="card__body_to_do_list">
+                        <li>To do 5</li>
+                        <li>To do 6</li>
+                        <li>To do 7</li>
+                        <li>To do 8</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- <ul>
+                <% for( let i = 0; i < values.length; i++ ) { %>
+                    <li>
+                        <%= values[i].test_col %> 
+                    </li>
+                <% } %>
+            </ul> -->
+        </div>
+    </div>    
+</body>
+</html>

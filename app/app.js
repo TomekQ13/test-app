@@ -4,6 +4,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const { Client } = require('pg')
 
+app.use(express.static(__dirname + '/public'));
 
 const client = new Client({
     user: process.env.POSTGRES_RW_USER,
@@ -25,13 +26,31 @@ app.get('/', async (req, res) => {
     } catch (e) {
         console.error(e)
     }
-    res.render('index.ejs', {values: allValues.rows})
+    res.render('index', {values: allValues.rows})
 })
 
 app.post('/', async (req, res) => {
     let response
     try {
         response  = await client.query('insert into test (test_col) values ($1)', [req.body.value])
+    } catch (e) {
+        console.error(e)
+    }
+    res.redirect('/')
+})
+
+app.put('/', async(req, res) => {
+    try {
+        await client.query('update todos set done = true where id = $1', [req.params.id])
+    } catch (e) {
+        console.error(e)
+    }
+    res.redirect('/')
+})
+
+app.delete('/:id', async (req, res) => {
+    try {
+        await client.query('delete from todos where id = $1', [req.params.id])
     } catch (e) {
         console.error(e)
     }
