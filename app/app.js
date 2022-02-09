@@ -1,5 +1,7 @@
 const express = require("express")
 const app = express()
+const { v4: uuidv4 } = require('uuid');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const { Client } = require('pg')
@@ -19,27 +21,30 @@ const res = client.query('select now()').then(res => console.log('Connected to d
 
 app.set('view engine', 'ejs');
 
-app.get('/', async (req, res) => {
-    let allValues
+app.get('/', async (_req, res) => {
+    let todos
     try {
-        allValues = await client.query('select test_col from test')
+        todos = await client.query('select id, text, done from todos')
     } catch (e) {
         console.error(e)
     }
-    res.render('index', {values: allValues.rows})
+    todos_todo = todos.rows.filter(todo => todo.done === false)
+    todos_done = todos.rows.filter(todo => todo.done === true)
+
+    res.render('index', {todos_todo: todos_todo, todos_done: todos_done})
 })
 
 app.post('/', async (req, res) => {
     let response
     try {
-        response  = await client.query('insert into test (test_col) values ($1)', [req.body.value])
+        response  = await client.query('insert into todos (id, text) values ($1, $2)', [uuidv4(), req.body.value])
     } catch (e) {
         console.error(e)
     }
     res.redirect('/')
 })
 
-app.put('/', async(req, res) => {
+app.put('/:id', async(req, res) => {
     try {
         await client.query('update todos set done = true where id = $1', [req.params.id])
     } catch (e) {
