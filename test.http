@@ -1,0 +1,24 @@
+GET http://localhost:3000
+
+###
+
+POST http://localhost:3000
+
+{
+    "text": "test todo text"
+}
+
+###
+POST http://localhost:3000
+
+{
+    "text": "test todo text 2"
+}
+
+###
+
+PUT http://localhost:3000/f67c01c3-bb4f-4e2a-b35c-519bda94e744f67c01c3-bb4f-4e2a-b35c-519bda94e744
+
+###
+
+DELETE http://localhost:3000/f67c01c3-bb4f-4e2a-b35c-519bda94e744f67c01c3-bb4f-4e2a-b35c-519bda94e744

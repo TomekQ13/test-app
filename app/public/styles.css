@@ -25,3 +25,31 @@ body {
     list-style-position: inside;
     padding-left: 0;
 }
+
+.btn {
+    border: none;
+    border-radius: 3px;
+    background-color: inherit;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-delete {
+    background-color: hsl(360, 100%, 84%);
+    color: hsl(360, 100%, 31%);
+    border: 1px solid hsl(360, 100%, 31%);
+}
+
+.btn-delete:hover, .btn-delete:focus {
+    background-color: hsl(360, 50%, 60%);
+}
+
+.btn-done {
+    background-color: hsl(137, 44%, 68%);
+    color: hsl(137, 44%, 21%);
+    border: 1px solid hsl(137, 44%, 21%);
+}
+
+.btn-done:hover, .btn-delete:focus {
+    background-color: hsl(137, 44%, 47%);
+}

@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 const { v4: uuidv4 } = require('uuid');
+const methodOverride= require('method-override');
+app.use(methodOverride('_method'))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +30,7 @@ app.get('/', async (_req, res) => {
     } catch (e) {
         console.error(e)
     }
+    console.log(todos)
     todos_todo = todos.rows.filter(todo => todo.done === false)
     todos_done = todos.rows.filter(todo => todo.done === true)
 
@@ -37,7 +40,7 @@ app.get('/', async (_req, res) => {
 app.post('/', async (req, res) => {
     let response
     try {
-        response  = await client.query('insert into todos (id, text) values ($1, $2)', [uuidv4(), req.body.value])
+        response  = await client.query('insert into todos (id, text) values ($1, $2)', [uuidv4(), req.body.text])
     } catch (e) {
         console.error(e)
     }
