@@ -13,22 +13,22 @@
             <h1>To Do App</h1>
         </div>
         <div class="card__body">
-            <form action="/" method="POST">
+            <form action="/" method="POST" class="my-form">
                 <input type="text" id="text" name="text">
-                <button class="btn" type="submit">Add</button>
+                <button class="btn btn-add" type="submit">Add</button>
             </form>
             <div class="card__body_cols">
                 <div class="card__body_cols_left">
                     <h2>To do</h2>
                     <ol class="card__body_to_do_list">
                         <% todos_todo.forEach(todo => { %>
-                            <li>
+                            <li class="todo-row">
                                 <%= todo.text %> 
-                                <form action="/<%= todo.id %>?_method=DELETE" method="POST">
-                                    <button class="btn btn-delete" type="submit">&times;</button>
+                                <form action="/<%= todo.id %>?_method=DELETE" method="POST" class="btn-form">
+                                    <button class="btn btn-delete icon" type="submit">&times;</button>
                                 </form>
-                                <form action="/<%= todo.id %>?_method=PUT" method="POST">
-                                    <button class="btn btn-done" type="submit">&#10003;</button>
+                                <form action="/<%= todo.id %>?_method=PUT" method="POST" class="btn-form">
+                                    <button class="btn btn-done icon" type="submit">&#10003;</button>
                                 </form>
                             </li>
                         <% }) %>
@@ -38,9 +38,9 @@
                     <h2>Done</h2>
                     <ol class="card__body_to_do_list">
                         <% todos_done.forEach(todo => { %>
-                            <li>
+                            <li class="todo-row">
                                 <%= todo.text %> 
-                                <form action="/<%= todo.id %>?_method=DELETE" method="POST">
+                                <form action="/<%= todo.id %>?_method=DELETE" method="POST" class="btn-form">
                                     <button class="btn btn-delete" type="submit">&times;</button>
                                 </form>
                             </li>
