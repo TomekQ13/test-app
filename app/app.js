@@ -3,12 +3,12 @@ const app = express()
 const { v4: uuidv4 } = require('uuid');
 const methodOverride= require('method-override');
 app.use(methodOverride('_method'))
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const { Client } = require('pg')
-
 app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+
+const { Client } = require('pg')
 
 const client = new Client({
     user: process.env.POSTGRES_RW_USER,
@@ -21,7 +21,6 @@ const client = new Client({
 client.connect()
 const res = client.query('select now()').then(res => console.log('Connected to database ' + res.rows[0].now))
 
-app.set('view engine', 'ejs');
 
 app.get('/', async (_req, res) => {
     let todos
@@ -30,7 +29,6 @@ app.get('/', async (_req, res) => {
     } catch (e) {
         console.error(e)
     }
-    console.log(todos)
     todos_todo = todos.rows.filter(todo => todo.done === false)
     todos_done = todos.rows.filter(todo => todo.done === true)
 
