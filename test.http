@@ -22,3 +22,11 @@ PUT http://localhost:3000/f67c01c3-bb4f-4e2a-b35c-519bda94e744f67c01c3-bb4f-4e2a
 ###
 
 DELETE http://localhost:3000/f67c01c3-bb4f-4e2a-b35c-519bda94e744f67c01c3-bb4f-4e2a-b35c-519bda94e744
+
+###
+GET http://localhost:3000/login
+
+###
+GET http://localhost:3000/register
+
+###
