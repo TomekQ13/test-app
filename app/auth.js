@@ -1,19 +1,26 @@
-const client = require('./db')
+function checkAuthenticated() {
+    return (req, res, next) => {
+        console.log('checking auth')
+        // this middleware must be after issuing session id
+        if (!req.session) return console.error('req.session is required before checking authentication')
 
-async function checkAuthenticated(req, res, next) {
-    // request comes without the sessionId
-    if (!req.signedCookies['sessionId']) return res.redirect('/login')
+        // session is not authenticated
+        if (!req.session.user_id) return res.redirect('/login')
 
-    const dbSessionId = await client.query(
-        'select 1 from session_ids where id = $1 and valid_to >= now()',
-        [req.signedCookies['sessionId']])
-    if (dbSessionId) {
-        return next()
-    } else {
-        return res.redirect('/login')
+        next()
     }
 }
 
+function checkNotAuthenticated(redirectRoute) {
+    return (req, res, next) => {
+        // this middleware must be after issuing session id
+        if (!req.session) return console.error('req.session is required before checking authentication')
 
+        // session is authenticated
+        if (req.session.user_id) return res.redirect(redirectRoute)
 
-module.exports = checkAuthenticated
+        next()
+    }
+}
+
+module.exports = {checkAuthenticated, checkNotAuthenticated}
