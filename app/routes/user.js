@@ -50,14 +50,18 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/register', async (req, res) => {
-    const user = await client.query('select 1 from users where username = $1', [req.body.username])
+    try {
+        const user = await client.query('select 1 from users where username = $1', [req.body.username])
+    } catch (e) {
+        console.error(e)
+    }
     // if user alrady exists with this username
     if (user.rows.length > 0) return res.redirect('/register')           
 
     // if password is too short
     if (req.body.password.length < config.minPasswordLength) return res.redirect('/register')  
     
-    // if password is too short
+    // if username is too short
     if (req.body.username.length < config.minUsernameLength) return res.redirect('/register')  
 
     // if repeated password do not match
