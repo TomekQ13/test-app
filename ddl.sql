@@ -1,6 +1,6 @@
 drop table if exists todos;
 create table todos (
-    id varchar(64),
+    id varchar,
     "text" text,
     done boolean default false,
     added_dttm timestamp default now()   
@@ -20,15 +20,18 @@ values ('4', 'Setup environment', true);
 
 drop table if exists session_ids;
 create table session_ids (
-    id varchar(64),
+    id varchar primary key,
+    params json,
     valid_to timestamp,
-    user_id varchar(64)
+    user_id varchar
 );
+
+create index session_valid_to_ix on session_ids (valid_to);
 
 drop table if exists users;
 create table users (
-    id varchar(64),
-    username varchar(64),
-    password varchar(64),
+    id varchar,
+    username varchar,
+    password varchar,
     added_dttm timestamp default now()
 );

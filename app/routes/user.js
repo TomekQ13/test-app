@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const client = require('../db')
 const { v4: uuidv4 } = require('uuid')
 const config = require('../config')
+const {authenticateSession} = require('../session')
 
 router.get('/login', (req, res) => {
     res.render('login')
@@ -13,45 +14,31 @@ router.get('/register', (req, res) => {
     res.render('register')
 })
 
-async function issueSessionId(res, userId) {
-    const sessionId = uuidv4()
-    let currentTime = new Date()
-    currentTime.setSeconds(currentTime.getSeconds() + config.cookieAgeInSeconds)
-
-    try {
-        await client.query(
-            'insert into session_ids (id, valid_to, user_id) values ($1, $2, $3)', 
-            [sessionId, currentTime, userId]
-        )
-    } catch (e) {
-        console.error(e)
-    }
-    res.cookie('sessionId', sessionId, {maxAge: 1000 * config.cookieAgeInSeconds, httpOnly: true, signed: true})
-}
-
-
 router.post('/login', async (req, res) => {
     let resp = await client.query(
         'select id, password, username from users where username = $1',
         [req.body.username]
-    )    
-    if (!resp.rows.length === 0) {
+    )
+
+    if (resp.rows.length === 0) {
         return res.redirect('/login')
     }
 
     const existingUser = resp.rows[0]
-    const compare = bcrypt.compare(req.body.password, existingUser.password)
-    if (compare) {
-        await issueSessionId(res, existingUser.id)
-        return res.redirect('/')
+    const compare = await bcrypt.compare(req.body.password, existingUser.password)
+    if (!compare) {
+        return res.redirect('/login')
     } 
-    return res.redirect('/login')
+    req.authenticateSession = authenticateSession
+    req.authenticateSession(existingUser.id)
+    return res.redirect('/')
 })
 
 
 router.post('/register', async (req, res) => {
+    let user
     try {
-        const user = await client.query('select 1 from users where username = $1', [req.body.username])
+        user = await client.query('select 1 from users where username = $1', [req.body.username])
     } catch (e) {
         console.error(e)
     }

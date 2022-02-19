@@ -4,6 +4,7 @@ const methodOverride= require('method-override');
 const cookieParser = require('cookie-parser')
 const toDosRouter = require('./routes/todos')
 const userRouter = require('./routes/user')
+const {session} = require('./session')
 const flash = require('express-flash')
 
 app.use(methodOverride('_method'))
@@ -12,7 +13,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(cookieParser('secret'))
-app.user(flash())
+app.use(session())
+// app.use(flash())
+
 
 app.use(toDosRouter)
 app.use(userRouter)
