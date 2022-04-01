@@ -18,6 +18,7 @@ body {
     border: 1px solid rgb(155, 155, 155);
     border-radius: .25rem;
     box-shadow: 0 2px 5px 0 rgb(0, 0, 0, .2);
+    max-width: 500px;
 }
 
 .card__body {
@@ -98,8 +99,13 @@ body {
 
 .my-form {
     display: grid;
-    grid-template-columns: 1fr 50px;
+    grid-template-columns: 1fr 3rem;
     column-gap: 0.3rem;
-    width:100%;
-    max-width: 500px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .card__body_cols {
+        grid-template-columns: 1fr;
+    }
 }

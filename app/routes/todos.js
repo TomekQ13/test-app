@@ -31,7 +31,8 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async(req, res) => {
     try {
-        await client.query('update todos set done = true where id = $1', [req.params.id])
+        let resp = await client.query('update todos set done = true where id = $1', [req.params.id])
+        console.log(resp)
     } catch (e) {
         console.error(e)
         // return req.flash('error', 'There has been an error. Please try again.')
