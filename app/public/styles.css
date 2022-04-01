@@ -22,7 +22,6 @@ body {
 }
 
 .card__body {
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -83,7 +82,7 @@ body {
     align-items: center;
     margin-bottom: 0.5rem;
 }
-
+ 
 .card__body_to_do_list:last-child {
     margin-bottom: 0px;
 }
